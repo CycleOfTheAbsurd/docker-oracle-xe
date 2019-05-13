@@ -141,7 +141,17 @@ else
 
   # Move database operational files to oradata
   moveFiles;
-   
+
+  # Create user
+  su oracle -c '$ORACLE_HOME/bin/sqlplus -s / as sysdba' << EOF
+	ALTER SESSION SET "_ORACLE_SCRIPT"=true;
+	CREATE USER oracle_user identified by "${ORACLE_USER_PASSWORD}";
+	DEFAULT TABLESPACE userspace;
+	GRANT CONNECT TO oracle_user;
+	GRANT CREATE SESSION GRANT CREATE TABLE TO oracle_user;
+	GRANT UNLIMITED TABLESPACE TO oracle_user;
+EOF
+
 fi;
 
 # Check whether database is up and running

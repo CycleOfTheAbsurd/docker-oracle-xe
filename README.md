@@ -9,6 +9,7 @@
 	- [Run Container](#run-container)
 - [Container Commands](#container-commands)
 - [Other](#other)
+  - [User Account](#user-account)
   - [SQL](#sql)
   - [APEX Install](#apex-install)
   - [SSH into Container](#ssh-into-container)
@@ -43,6 +44,11 @@ cd docker-oracle-xe
 
 -- Copy the RPMs to docker-odb18c-xe/files
 cp ~/Downloads/oracle-database-xe-*.rpm files/
+```
+
+Change the passwords in the `ENV` section of `docker-compose.yml` then:
+
+```bash
 -- Build Image
 docker-compose build
 
@@ -110,9 +116,18 @@ docker start oracle-xe
 
 # Stop container
 docker stop -t 200 oracle-xe
+
+# Get a shell inside the container
+docker exec --user oracle_user -it docker-oracle-xe_oracle-xe_1 /bin/bash
 ```
 
 ## Other
+
+### User Account
+
+A system user and a database user both named `oracle_user` are created in the `Dockerfile` and `scripts/runOracle.sh` respectively. It is recommended to use these accounts when inside container for tasks that do not require root/dba access such as simple database usage.
+
+The passwords are defined in environment variables in the `Dockerfile`. You MUST change them.
 
 ### SQL
 

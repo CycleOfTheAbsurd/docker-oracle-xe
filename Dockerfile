@@ -3,7 +3,9 @@ LABEL MAINTAINER="Adrian Png <adrian.png@fuzziebrain.com>"
 
 ENV \
   # The only environment variable that should be changed!
+  USER_PASSWORD=OracleUser \
   ORACLE_PASSWORD=Oracle18 \
+  ORACLE_USER_PASSWORD=OracleUserPass18 \
   EM_GLOBAL_ACCESS_YN=Y \
   # DO NOT CHANGE 
   ORACLE_DOCKER_INSTALL=true \
@@ -19,13 +21,16 @@ ENV \
 
 COPY ./files/ /tmp/
 
-RUN yum install -y oracle-database-preinstall-18c && \
+RUN yum install -y oracle-database-preinstall-18c openssl && \
   yum localinstall -y /tmp/oracle-database-xe-18c-*.rpm && \
   rm -rf /tmp/oracle-*
 
 COPY ./scripts/*.sh ${ORACLE_BASE}/scripts/
 
 RUN chmod a+x ${ORACLE_BASE}/scripts/*.sh 
+
+RUN useradd -ms /bin/bash oracle_user -p "$(openssl passwd -1 $USER_PASSWORD)"
+RUN echo "PATH=$PATH:$ORACLE_HOME/bin/" >> /home/oracle_user/.bashrc
 
 # 1521: Oracle listener
 # 5500: Oracle Enterprise Manager (EM) Express listener.
