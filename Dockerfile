@@ -27,7 +27,8 @@ RUN yum install -y oracle-database-preinstall-18c openssl && \
 
 COPY ./scripts/*.sh ${ORACLE_BASE}/scripts/
 
-RUN chmod a+x ${ORACLE_BASE}/scripts/*.sh 
+RUN install -d -m 775 -g dba /usr/share/db
+RUN chmod a+x ${ORACLE_BASE}/scripts/*.sh
 
 RUN useradd -ms /bin/bash oracle_user -p "$(openssl passwd -1 $USER_PASSWORD)"
 RUN echo "PATH=$PATH:$ORACLE_HOME/bin/" >> /home/oracle_user/.bashrc
