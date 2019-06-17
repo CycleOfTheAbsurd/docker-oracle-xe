@@ -7,7 +7,7 @@ ENV \
   ORACLE_PASSWORD=Oracle18 \
   ORACLE_USER_PASSWORD=OracleUserPass18 \
   EM_GLOBAL_ACCESS_YN=Y \
-  # DO NOT CHANGE 
+  # DO NOT CHANGE
   ORACLE_DOCKER_INSTALL=true \
   ORACLE_SID=XE \
   ORACLE_BASE=/opt/oracle \
@@ -26,6 +26,9 @@ RUN yum install -y oracle-database-preinstall-18c openssl && \
   rm -rf /tmp/oracle-*
 
 COPY ./scripts/*.sh ${ORACLE_BASE}/scripts/
+ADD ./sqlcl /usr/share/sqlcl
+RUN chmod +x /usr/share/sqlcl/bin/sql
+RUN ln -s /usr/share/sqlcl/bin/sql /usr/bin/sqlcl
 
 RUN install -d -m 775 -g dba /usr/share/db
 RUN chmod a+x ${ORACLE_BASE}/scripts/*.sh
