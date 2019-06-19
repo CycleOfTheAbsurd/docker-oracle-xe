@@ -46,7 +46,7 @@ cd docker-oracle-xe
 cp ~/Downloads/oracle-database-xe-*.rpm files/
 ```
 
-Change the passwords in the `ENV` section of `docker-compose.yml` then:
+Change the passwords in the `ENV` section of the `Dockerfile` then:
 
 ```bash
 -- Build Image
@@ -70,7 +70,7 @@ git clone git@github.com:fuzziebrain/docker-oracle-xe.git
 cd docker-oracle-xe
 
 -- Copy the RPM to docker-odb18c-xe/files
-cp ~/Downloads/oracle-database-xe-18c-1.0-1.x86_64.rpm files/
+cp ~/Downloads/oracle-database-xe-*.rpm files/
 
 -- Build Image
 docker build -t oracle-xe:18c .
