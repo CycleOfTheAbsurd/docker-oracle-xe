@@ -150,6 +150,8 @@ else
 	GRANT CONNECT TO oracle_user;
 	GRANT CREATE SESSION TO oracle_user;
 	GRANT CREATE TABLE TO oracle_user;
+	GRANT CREATE PROCEDURE TO oracle_user;
+	GRANT CREATE TRIGGER TO oracle_user;
 	GRANT UNLIMITED TABLESPACE TO oracle_user;
 EOF
 
